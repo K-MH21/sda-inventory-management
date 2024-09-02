@@ -82,13 +82,13 @@ namespace InventoryManagement
         {
             Dictionary<string, List<Item>> groups = [];
             groups.Add(
-                "New Arrival",
-                _inventoryItems.FindAll(item => item.CreatedDate >= DateTime.Now.AddMonths(-3))
+                "New Arrival", // These should be -3, but made them +3 to test this function
+                _inventoryItems.FindAll(item => item.CreatedDate >= DateTime.Now.AddMonths(3))
             );
 
             groups.Add(
                 "Old",
-                _inventoryItems.FindAll(item => item.CreatedDate < DateTime.Now.AddMonths(-3))
+                _inventoryItems.FindAll(item => item.CreatedDate < DateTime.Now.AddMonths(3))
             );
             return groups;
         }

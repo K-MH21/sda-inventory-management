@@ -113,6 +113,69 @@ namespace InventoryManagement
             {
                 Console.WriteLine(ex.Message.Contains("Item not found"));
             }
+            Console.WriteLine("==== Test Level 2 | Capacity");
+            Store store2 = new Store(20);
+
+            store2.AddItem(waterBottle);
+            try
+            {
+                store2.AddItem(chocolateBar);
+            }
+            catch (InvalidOperationException ex)
+            {
+                Console.WriteLine(ex.Message.Contains("Cannot add more items: capacity is full."));
+            }
+
+            store2.DeleteItem(waterBottle);
+            store2.AddItem(chocolateBar);
+            Console.WriteLine(store2.FindItemByName(chocolateBar.Name) == chocolateBar);
+
+            Console.WriteLine("Check ordering\n new item --> water bottle --> Chocolate Bar");
+            var store3 = new Store(999);
+            store3.AddItem(waterBottle);
+            store3.AddItem(chocolateBar);
+            store3.AddItem(new Item("New Item", 23));
+            var sortedStore3 = store3.SortByDate(SortOrder.ASC);
+            foreach (var item in sortedStore3)
+            {
+                Console.WriteLine(item.Name);
+            }
+            Console.WriteLine("== Now in reverse ==");
+            sortedStore3 = store3.SortByDate(SortOrder.DESC);
+            foreach (var item in sortedStore3)
+            {
+                Console.WriteLine(item.Name);
+            }
+
+            store = new Store(300);
+
+            store.AddItem(waterBottle);
+            store.AddItem(chocolateBar);
+            store.AddItem(notebook);
+            store.AddItem(pen);
+            store.AddItem(tissuePack);
+            store.AddItem(chipsBag);
+            store.AddItem(sodaCan);
+            store.AddItem(soap);
+            store.AddItem(shampoo);
+            store.AddItem(toothbrush);
+            store.AddItem(coffee);
+            store.AddItem(sandwich);
+            store.AddItem(batteries);
+            store.AddItem(umbrella);
+            store.AddItem(sunscreen);
+
+            var groupByDate = store.GroupByDate();
+            foreach (var group in groupByDate)
+            {
+                Console.WriteLine($"{group.Key} Items:");
+                foreach (var item in group.Value)
+                {
+                    Console.WriteLine(
+                        $" - {item.Name}, Created: {item.CreatedDate.ToShortDateString()}"
+                    );
+                }
+            }
         }
     }
 }

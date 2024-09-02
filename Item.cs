@@ -35,7 +35,12 @@ namespace InventoryManagement
             get => _createdDate;
             set
             {
-                if (DateTime.Compare(value.ToUniversalTime(), DateTime.Now.ToUniversalTime()) >= 0)
+                if (
+                    DateTime.Compare(
+                        value.ToUniversalTime(),
+                        DateTime.Now.ToUniversalTime().AddMilliseconds(-100)
+                    ) <= 0
+                )
                 {
                     throw new ArgumentException("Date cannot be from the past");
                 }

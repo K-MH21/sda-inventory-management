@@ -1,5 +1,3 @@
-using System.Dynamic;
-
 namespace InventoryManagement
 {
     public class Store
@@ -10,8 +8,8 @@ namespace InventoryManagement
 
         public Store(int capacity)
         {
-            _inventoryItems = [];
             _capacity = capacity;
+            _inventoryItems = new List<Item>(_capacity);
             _currentLoad = 0;
         }
 
@@ -66,6 +64,33 @@ namespace InventoryManagement
         public void SortByNameAsc()
         {
             _inventoryItems.Sort((x, y) => x.Name.CompareTo(y.Name));
+        }
+
+        public List<Item> SortByDate(SortOrder order)
+        {
+            switch (order)
+            {
+                case SortOrder.DESC:
+                    return _inventoryItems.OrderByDescending(x => x.CreatedDate).ToList();
+                case SortOrder.ASC:
+                    return _inventoryItems.OrderBy(x => x.CreatedDate).ToList();
+            }
+            throw new Exception("Error");
+        }
+
+        public Dictionary<string, List<Item>> GroupByDate()
+        {
+            Dictionary<string, List<Item>> groups = [];
+            groups.Add(
+                "New Arrival",
+                _inventoryItems.FindAll(item => item.CreatedDate >= DateTime.Now.AddMonths(-3))
+            );
+
+            groups.Add(
+                "Old",
+                _inventoryItems.FindAll(item => item.CreatedDate < DateTime.Now.AddMonths(-3))
+            );
+            return groups;
         }
     }
 }

@@ -4,7 +4,16 @@ namespace InventoryManagement
 {
     public class Store
     {
-        private List<Item> _inventoryItems = [];
+        private List<Item> _inventoryItems;
+        private int _capacity,
+            _currentLoad;
+
+        public Store(int capacity)
+        {
+            _inventoryItems = [];
+            _capacity = capacity;
+            _currentLoad = 0;
+        }
 
         public void AddItem(Item item)
         {
@@ -12,6 +21,14 @@ namespace InventoryManagement
             {
                 throw new ArgumentException("Item exists");
             }
+
+            _currentLoad += item.Quantity;
+            if (_capacity <= _currentLoad)
+            {
+                _currentLoad -= item.Quantity;
+                throw new InvalidOperationException("Cannot add more items: capacity is full.");
+            }
+
             _inventoryItems.Add(item);
         }
 
@@ -21,6 +38,7 @@ namespace InventoryManagement
             {
                 throw new InvalidOperationException("Item not found");
             }
+            _currentLoad -= item.Quantity;
         }
 
         public int GetCurrentVolume()
@@ -35,7 +53,7 @@ namespace InventoryManagement
 
         public Item FindItemByName(string name)
         {
-            Item item = _inventoryItems.FirstOrDefault(item => item.Name.Equals(name));
+            Item? item = _inventoryItems.FirstOrDefault(item => item.Name.Equals(name));
 
             if (item == null)
             {

@@ -7,7 +7,7 @@ namespace InventoryManagement
         private DateTime _createdDate;
         public string Name
         {
-            get { return _name; }
+            get => _name;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -19,7 +19,7 @@ namespace InventoryManagement
         }
         public int Quantity
         {
-            get { return _quantity; }
+            get => _quantity;
             set
             {
                 if (value < 0)
@@ -32,7 +32,7 @@ namespace InventoryManagement
 
         public DateTime CreatedDate
         {
-            get { return _createdDate; }
+            get => _createdDate;
             set
             {
                 if (DateTime.Compare(value.ToUniversalTime(), DateTime.Now.ToUniversalTime()) >= 0)

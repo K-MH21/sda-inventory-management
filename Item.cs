@@ -34,13 +34,12 @@ namespace InventoryManagement
         {
             get { return _createdDate; }
             set
-            { /*         Should I implement this condition?
+            {
+                if (DateTime.Compare(value.ToUniversalTime(), DateTime.Now.ToUniversalTime()) >= 0)
+                {
+                    throw new ArgumentException("Date cannot be from the past");
+                }
 
-                 if (DateTime.Compare(value, DateTime.Now) == 1)
-                 {
-                     throw new ArgumentException("Date cannot be from the past");
-                 }
-                 */
                 _createdDate = value;
             }
         }
